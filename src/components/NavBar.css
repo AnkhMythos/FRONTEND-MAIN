@@ -1,0 +1,241 @@
+/* === Variables Globales === */
+:root {
+  /* Colores por defecto (modo claro) */
+  --bg-color: #ffffff;
+  --text-color: #000000;
+  --nav-bg: #f8f9fa;
+  --nav-text: #333;
+  --link-hover: #e0e0e0;
+  --border-color: #dee2e6;
+}
+
+[data-theme="dark"] {
+  /* Colores modo oscuro */
+  --bg-color: #121212;
+  --text-color: #f5f5f5;
+  --nav-bg: #1e1e1e;
+  --nav-text: #ccc;
+  --link-hover: #333;
+  --border-color: #444;
+}
+
+/* === Estilos generales === */
+* {
+  margin: 10;
+  padding: 10;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin: 20;
+  padding: 10;
+  }
+
+/* Contenedor principal */
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  padding: 1rem;
+  padding: 0 20px;
+}
+
+/* === Navbar estilizado === */
+/* .navbar {
+  background-color: var(--nav-bg);
+  color: var(--nav-text);
+  padding: 0.75rem 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid var(--border-color);
+} */
+
+.navbar {
+  position: fixed; /* Fija el menú en la parte superior */
+  top: 0; /* Asegura que esté en la parte superior */
+  left: 10;
+  width: 100%; /* Ocupa todo el ancho de la pantalla */
+  z-index: 1000; /* Asegura que esté por encima de otros elementos */
+  background-color: #fff; /* Fondo blanco o el color que prefieras */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Opcional: sombra para destacar */
+  padding: 0 20px; /* Espaciado de 50px en los lados izquierdo y derecho */
+  box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+}
+
+.nav__elements {
+  display: flex;
+  justify-content: space-around; /* Espaciado uniforme entre los elementos */
+  margin: 10;
+  padding: 10px 0;
+  list-style: none;
+}
+
+
+.header__right-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.nav__elements {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.nav__link {
+  text-decoration: none;
+  color: #000; /* Cambia según el diseño */
+  font-weight: bold;
+}
+
+.nav__element a {
+  text-decoration: none;
+  color: var(--nav-text);
+  font-weight: 500;
+}
+
+.nav__element a:hover {
+  color: #0d6efd;
+}
+
+/* Botones login / register */
+.header__right-buttons .buttons .btn {
+  font-size: 0.875rem;
+  padding: 0.4rem 0.8rem;
+}
+
+/* Perfil dropdown */
+.pefil {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--text-color);
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown__header {
+  background-color: var(--nav-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+.dropdown__header-names .name {
+  font-weight: 600;
+}
+
+.dropdown__item:hover {
+  background-color: var(--link-hover);
+}
+
+.dropdown__link {
+  color: var(--text-color);
+}
+
+.dropdown__link:hover {
+  color: #0d6efd;
+}
+
+/* === Dark Mode Toggle Button === */
+.dark-mode-toggle {
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--nav-text);
+  border-radius: 4px;
+  padding: 0.375rem 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dark-mode-toggle:hover {
+  background-color: var(--link-hover);
+}
+
+.dark-mode-toggle svg {
+  vertical-align: middle;
+  width: 16px;
+  height: 16px;
+}
+
+/* === Responsive Design (Mobile First) === */
+
+@media (max-width: 768px) {
+  .navbar .nav__elements {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .header__right-buttons {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+  }
+
+  .header__right-buttons .buttons {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .buttons .btn {
+    font-size: 0.8rem;
+    padding: 0.35rem 0.6rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar .nav__elements {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header__right-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    justify-content: space-between;
+    padding-top: 0.5rem;
+  }
+
+  .header__right-perfil {
+    order: -1;
+    margin-right: auto;
+  }
+}
+
+body.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+body {
+  background-image: url('./assets/images/BG.png'); /* Ruta relativa a la carpeta src */
+  background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
+  background-position: center; /* Centra la imagen */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
