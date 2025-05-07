@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AprendePlus - Plataforma Educativa</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="CustomNavBar.css"> 
+    <style>
+        .dark-mode {
+            background-color: #212529;
+            color: #f8f9fa;
+        }
+        
+        .navbar-nav .nav-link {
+            padding-right: 1rem;
+            padding-left: 1rem;
+        }
+        
+        body {
+            transition: background-color 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg" id="mainNavbar">
+        <div class="container-fluid">
+            <!-- Botón hamburguesa (izquierda) -->
+            <button class="navbar-toggler me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <!-- Logo o marca -->
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-book-fill me-2 text-primary"></i>
+                <span class="fw-bold">AprendePlus</span>
+            </a>
+            
+            <!-- Selector de tipo de usuario (solo para desarrollo) -->
+            <select id="userTypeSelect" class="form-select form-select-sm me-2" style="width: 120px;">
+                <option value="guest">Invitado</option>
+                <option value="student">Estudiante</option>
+                <option value="teacher">Profesor</option>
+                <option value="admin">Admin</option>
+            </select>
+            
+            <!-- Contenedor de elementos de la derecha -->
+            <div class="ms-auto d-flex align-items-center">
+                <!-- Botón dark mode -->
+                <button id="darkModeToggle" class="btn btn-outline-secondary btn-sm me-2" title="Modo oscuro">
+                    <i class="bi bi-moon-fill" id="darkModeIcon"></i>
+                </button>
+                
+                <!-- Contenido dinámico para usuario autenticado -->
+                <div id="authenticatedUserMenu" style="display: none;">
+                    <!-- Carrito (solo estudiantes) -->
+                    <div id="cartDropdown" class="dropdown me-2" style="display: none;">
+                        <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" id="dropdown-cart" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-cart-fill"></i>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdown-cart">
+                            <li><h6 class="dropdown-header">Tu Carrito</h6></li>
+                            <li><a class="dropdown-item" href="#">Curso de React</a></li>
+                            <li><a class="dropdown-item" href="#">Curso de Node.js</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-end" href="#"><button class="btn btn-success btn-sm">Pagar</button></a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Notificaciones -->
+                    <div class="dropdown me-2">
+                        <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdown-notifications" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-bell-fill"></i>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdown-notifications">
+                            <li><h6 class="dropdown-header">Notificaciones</h6></li>
+                            <li><a class="dropdown-item" href="#">Nuevo curso disponible</a></li>
+                            <li id="teacherNotification" style="display: none;"><a class="dropdown-item" href="#">Tienes nuevos estudiantes</a></li>
+                            <li><a class="dropdown-item" href="#">Mensajes nuevos</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Perfil usuario -->
+                    <div class="dropdown">
+                        <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-fill me-1"></i>
+                            <span id="username">Usuario</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownProfile">
+                            <li><h6 class="dropdown-header">Mi Cuenta</h6></li>
+                            <li><a class="dropdown-item" href="/CustomNavBar">Perfil</a></li>
+                            <li><a class="dropdown-item" href="/mis-cursos">Mis Cursos</a></li>
+                            
+                            <!-- Opciones de profesor -->
+                            <div id="teacherOptions" style="display: none;">
+                                <li><hr class="dropdown-divider"></li>
+                                <li><h6 class="dropdown-header">Profesor</h6></li>
+                                <li><a class="dropdown-item" href="/crear-curso">Crear Curso</a></li>
+                                <li><a class="dropdown-item" href="/mis-cursos-profesor">Gestionar Cursos</a></li>
+                            </div>
+                            
+                            <!-- Opciones de administrador -->
+                            <div id="adminOptions" style="display: none;">
+                                <li><hr class="dropdown-divider"></li>
+                                <li><h6 class="dropdown-header">Administrador</h6></li>
+                                <li><a class="dropdown-item" href="/admin/usuarios">Gestionar Usuarios</a></li>
+                                <li><a class="dropdown-item" href="/admin/cursos">Gestionar Cursos</a></li>
+                            </div>
+                            
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/configuracion"><i class="bi bi-gear-fill me-1"></i> Configuración</a></li>
+                            <li><a class="dropdown-item" href="#" id="logoutBtn">Cerrar Sesión</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Botones de inicio de sesión y registro (usuario no autenticado) -->
+                <div id="guestUserMenu" class="d-none d-lg-flex gap-2">
+                    <a href="/login" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-person-fill me-1"></i>
+                        Ingresar
+                    </a>
+                    <a href="/registro" class="btn btn-primary btn-sm">
+                        Registrarse
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Menú Offcanvas para móviles -->
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menú</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/" data-bs-dismiss="offcanvas">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/cursos" data-bs-dismiss="offcanvas">Cursos</a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="/calendario" data-bs-dismiss="offcanvas">Calendario</a>
+                        </li> -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="/components/Contacto" data-bs-dismiss="offcanvas">Contacto</a>
+                        </li>
+                        
+                        <!-- Opciones para usuarios autenticados en móvil -->
+                        <li class="nav-item authenticated-option" style="display: none;">
+                            <a class="nav-link" href="/mis-cursos" data-bs-dismiss="offcanvas">Mis Cursos</a>
+                        </li>
+                        <li class="nav-item teacher-option" style="display: none;">
+                            <a class="nav-link" href="/crear-curso" data-bs-dismiss="offcanvas">Crear Curso</a>
+                        </li>
+                    </ul>
+                    
+                    <!-- Versión móvil de los botones -->
+                    <div class="mt-3 d-lg-none">
+                        <select id="userTypeMobile" class="form-select mb-3">
+                            <option value="guest">Invitado</option>
+                            <option value="student">Estudiante</option>
+                            <option value="teacher">Profesor</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                        
+                        <div id="mobileGuestOptions" class="d-flex flex-column gap-2 mb-3">
+                            <a href="/login" class="btn btn-outline-primary btn-sm w-100" data-bs-dismiss="offcanvas">
+                                Ingresar
+                            </a>
+                            <a href="/registro" class="btn btn-primary btn-sm w-100" data-bs-dismiss="offcanvas">
+                                Registrarse
+                            </a>
+                        </div>
+                        
+                        <button id="darkModeToggleMobile" class="btn btn-outline-secondary btn-sm w-100">
+                            🌙 Modo Oscuro
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- <div class="container mt-4">
+        <div class="alert alert-info">
+            <h4>Bienvenido a AprendePlus</h4>
+            <p>Esta es una conversión HTML de la barra de navegación React. Cambia el tipo de usuario en el selector para ver los diferentes estados.</p>
+        </div>
+    </div> -->
+
+    <!-- Bootstrap JS y Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Variables de estado
+            let darkMode = false;
+            let userType = 'guest'; // 'guest', 'student', 'teacher', 'admin'
+            let user = null;
+            
+            // Elementos del DOM
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const darkModeToggleMobile = document.getElementById('darkModeToggleMobile');
+            const darkModeIcon = document.getElementById('darkModeIcon');
+            const mainNavbar = document.getElementById('mainNavbar');
+            const offcanvasNavbar = document.getElementById('offcanvasNavbar');
+            const userTypeSelect = document.getElementById('userTypeSelect');
+            const userTypeMobile = document.getElementById('userTypeMobile');
+            const guestUserMenu = document.getElementById('guestUserMenu');
+            const authenticatedUserMenu = document.getElementById('authenticatedUserMenu');
+            const cartDropdown = document.getElementById('cartDropdown');
+            const teacherNotification = document.getElementById('teacherNotification');
+            const teacherOptions = document.getElementById('teacherOptions');
+            const adminOptions = document.getElementById('adminOptions');
+            const usernameElements = document.querySelectorAll('#username');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const mobileGuestOptions = document.getElementById('mobileGuestOptions');
+            const authenticatedOptions = document.querySelectorAll('.authenticated-option');
+            const teacherOnlyOptions = document.querySelectorAll('.teacher-option');
+            
+            // Función para aplicar modo oscuro
+            function applyDarkMode(isDark) {
+                darkMode = isDark;
+                
+                if (darkMode) {
+                    document.body.classList.add('dark-mode');
+                    document.documentElement.setAttribute('data-bs-theme', 'dark');
+                    mainNavbar.classList.remove('navbar-light', 'bg-light');
+                    mainNavbar.classList.add('navbar-dark', 'bg-dark');
+                    offcanvasNavbar.classList.add('bg-dark', 'text-white');
+                    darkModeToggle.classList.remove('btn-outline-secondary');
+                    darkModeToggle.classList.add('btn-outline-light');
+                    darkModeToggle.title = 'Modo claro';
+                    darkModeIcon.classList.remove('bi-moon-fill');
+                    darkModeIcon.classList.add('bi-sun-fill');
+                    darkModeToggleMobile.textContent = '☀️ Modo Claro';
+                    darkModeToggleMobile.classList.remove('btn-outline-secondary');
+                    darkModeToggleMobile.classList.add('btn-outline-light');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    document.documentElement.setAttribute('data-bs-theme', 'light');
+                    mainNavbar.classList.remove('navbar-dark', 'bg-dark');
+                    mainNavbar.classList.add('navbar-light', 'bg-light');
+                    offcanvasNavbar.classList.remove('bg-dark', 'text-white');
+                    darkModeToggle.classList.remove('btn-outline-light');
+                    darkModeToggle.classList.add('btn-outline-secondary');
+                    darkModeToggle.title = 'Modo oscuro';
+                    darkModeIcon.classList.remove('bi-sun-fill');
+                    darkModeIcon.classList.add('bi-moon-fill');
+                    darkModeToggleMobile.textContent = '🌙 Modo Oscuro';
+                    darkModeToggleMobile.classList.remove('btn-outline-light');
+                    darkModeToggleMobile.classList.add('btn-outline-secondary');
+                }
+            }
+            
+            // Función para cambiar tipo de usuario
+            function changeUserType(type) {
+                userType = type;
+                
+                // Restaurar estado inicial
+                guestUserMenu.style.display = 'none';
+                authenticatedUserMenu.style.display = 'none';
+                cartDropdown.style.display = 'none';
+                teacherNotification.style.display = 'none';
+                teacherOptions.style.display = 'none';
+                adminOptions.style.display = 'none';
+                mobileGuestOptions.style.display = 'none';
+                
+                authenticatedOptions.forEach(el => el.style.display = 'none');
+                teacherOnlyOptions.forEach(el => el.style.display = 'none');
+                
+                // Configurar según tipo de usuario
+                switch(userType) {
+                    case 'student':
+                        user = { name: 'Estudiante Ejemplo', role: 'student' };
+                        authenticatedUserMenu.style.display = 'flex';
+                        cartDropdown.style.display = 'block';
+                        authenticatedOptions.forEach(el => el.style.display = 'block');
+                        break;
+                    case 'teacher':
+                        user = { name: 'Profesor Ejemplo', role: 'teacher' };
+                        authenticatedUserMenu.style.display = 'flex';
+                        teacherNotification.style.display = 'block';
+                        teacherOptions.style.display = 'block';
+                        authenticatedOptions.forEach(el => el.style.display = 'block');
+                        teacherOnlyOptions.forEach(el => el.style.display = 'block');
+                        break;
+                    case 'admin':
+                        user = { name: 'Administrador', role: 'admin' };
+                        authenticatedUserMenu.style.display = 'flex';
+                        adminOptions.style.display = 'block';
+                        authenticatedOptions.forEach(el => el.style.display = 'block');
+                        break;
+                    default: // guest
+                        user = null;
+                        guestUserMenu.style.display = 'flex';
+                        mobileGuestOptions.style.display = 'flex';
+                }
+                
+                // Actualizar nombre de usuario si existe
+                if (user) {
+                    usernameElements.forEach(el => el.textContent = user.name);
+                }
+            }
+            
+            // Event listeners
+            darkModeToggle.addEventListener('click', () => applyDarkMode(!darkMode));
+            darkModeToggleMobile.addEventListener('click', () => applyDarkMode(!darkMode));
+            
+            userTypeSelect.addEventListener('change', function() {
+                changeUserType(this.value);
+                userTypeMobile.value = this.value;
+            });
+            
+            userTypeMobile.addEventListener('change', function() {
+                changeUserType(this.value);
+                userTypeSelect.value = this.value;
+            });
+            
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                changeUserType('guest');
+                userTypeSelect.value = 'guest';
+                userTypeMobile.value = 'guest';
+            });
+            
+            // Inicializar estado
+            applyDarkMode(false);
+            changeUserType('guest');
+        });
+    </script>
+    
+</body>
+</html>
