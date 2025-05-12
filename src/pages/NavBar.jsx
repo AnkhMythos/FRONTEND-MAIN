@@ -12,7 +12,6 @@ import {
 } from 'react-bootstrap-icons';
 
 import './NavBar.css';
-// import './MobileHeader.css';
 
 const CustomNavBar = () => {
   const [darkMode, setDarkMode] = useState(false);

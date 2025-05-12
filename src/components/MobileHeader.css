@@ -1,0 +1,47 @@
+.mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    height: 60px;
+    font-family: "Udemy Sans", -apple-system, BlinkMacSystemFont, Roboto, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  
+  .menu-button,
+  .search-button,
+  .cart-button {
+    background: none;
+    border: none;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .menu-button:hover,
+  .search-button:hover,
+  .cart-button:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .logo-container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .udemy-logo {
+    height: 28px;
+    width: auto;
+  }
+  
+  .right-buttons {
+    display: flex;
+    gap: 8px;
+  }

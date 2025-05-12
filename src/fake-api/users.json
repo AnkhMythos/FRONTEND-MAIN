@@ -1,0 +1,74 @@
+[
+    {
+      "id": "1",
+      "name": "Alice",
+      "lastName": "AdminLastName",
+      "email": "alice.admin@example.com",
+      "password": "admin123",
+      "userType": "admin",
+      "permissions": [
+        "create_client",
+        "read_client",
+        "update_client",
+        "delete_client",
+        "create_tutor",
+        "read_tutor",
+        "update_tutor",
+        "delete_tutor",
+        "create_course",
+        "read_course",
+        "update_course",
+        "delete_course",
+        "create_student",
+        "read_student",
+        "update_student",
+        "delete_student"
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Carlos",
+      "lastName": "ClientLastName",
+      "email": "carlos.client@example.com",
+      "password": "client123",
+      "userType": "client",
+      "permissions": [
+        "create_tutor",
+        "read_tutor",
+        "update_tutor",
+        "delete_tutor",
+        "create_course",
+        "read_course",
+        "update_course",
+        "delete_course",
+        "create_student",
+        "read_student",
+        "update_student",
+        "delete_student"
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Tamara",
+      "lastName": "TutorLastName",
+      "email": "tamara.tutor@example.com",
+      "password": "tutor123",
+      "userType": "tutor",
+      "permissions": [
+        "read_course",
+        "read_student"
+      ]
+    },
+    {
+      "id": "4",
+      "name": "Sergio",
+      "lastName": "StudentLastName",
+      "email": "sergio.student@example.com",
+      "password": "student123",
+      "userType": "student",
+      "permissions": [
+        "read_course"
+      ]
+    }
+  ]
+  
